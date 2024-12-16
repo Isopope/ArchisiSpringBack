@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/reservations")
-@CrossOrigin(origins = "http://localhost:4200/")
 public class ReservationController {
     private final ReservationService reservationService;
     private final ReservationMapper reservationMapper;

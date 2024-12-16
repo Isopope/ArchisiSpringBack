@@ -31,9 +31,13 @@ public class TerrainService {
     }
 
     public TerrainEntity updateTerrain(Integer id, TerrainEntity terrainEntity){
-        return terrainRepository.findById(id).map(
-                e->terrainRepository.save(terrainEntity)).orElseThrow(()->new ApplicationException(ErrorCode.RESOURCE_NOT_FOUND)
-        );
+        return terrainRepository.findById(id).map(existingTerrain -> {
+            existingTerrain.setNom(terrainEntity.getNom());
+            existingTerrain.setQuantite(terrainEntity.getQuantite());
+            existingTerrain.setDescription(terrainEntity.getDescription());
+            existingTerrain.setPointGeo(terrainEntity.getPointGeo());
+            return terrainRepository.save(existingTerrain);
+        }).orElseThrow(() -> new ApplicationException(ErrorCode.RESOURCE_NOT_FOUND));
     }
 
     public void deleteTerrain(Integer id){

@@ -4,13 +4,14 @@ import com.capgemini.polytech.entities.UtilisateurEntity;
 import com.capgemini.polytech.exceptions.ApplicationException;
 import com.capgemini.polytech.exceptions.ErrorCode;
 import com.capgemini.polytech.repositories.UtilisateurRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UtilisateurService {
+public class UtilisateurService  {
     private final UtilisateurRepository utilisateurRepository;
 
     public UtilisateurService(UtilisateurRepository utilisateurRepository) {
@@ -45,4 +46,7 @@ public class UtilisateurService {
                     return utilisateur;
                 }).orElseThrow(() -> new ApplicationException(ErrorCode.RESOURCE_NOT_FOUND));
     }
+
+
+
 }

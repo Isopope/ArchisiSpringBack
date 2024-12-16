@@ -15,8 +15,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/utilisateurs")
-@CrossOrigin(origins = "http://localhost:4200/")
-
 public class UtilisateurController {
     private  UtilisateurService utilisateurService;
     private  UtilisateurMapper utilisateurMapper;
