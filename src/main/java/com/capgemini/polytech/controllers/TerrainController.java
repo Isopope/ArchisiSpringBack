@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +31,10 @@ public class TerrainController {
     public List<TerrainEntity> getAllTerrain() {
         return terrainService.getAllTerrain();
     }
+
+
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<TerrainDTO> getOneTerrain(@PathVariable Integer id) {
         TerrainEntity terrain = terrainService.getOneTerrain(id);
         return ResponseEntity.ok(terrainMapper.toDTO(terrain));

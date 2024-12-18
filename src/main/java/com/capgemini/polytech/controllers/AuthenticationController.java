@@ -8,6 +8,7 @@ import com.capgemini.polytech.mappers.LoginUtilisateurMapper;
 import com.capgemini.polytech.mappers.RegisterUtilisateurMapper;
 import com.capgemini.polytech.services.AuthenticationService;
 import com.capgemini.polytech.services.JwtService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("api/v1/auth")
+@RequestMapping("api/v1/authentifications")
 public class AuthenticationController {
     private RegisterUtilisateurMapper registerUtilisateurMapper;
     private LoginUtilisateurMapper loginUtilisateurMapper;
@@ -51,6 +52,20 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(loginResponse);
     }
+
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request) {
+
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+            log.info("Token invalidé pour la déconnexion");
+        }
+
+        return ResponseEntity.ok("Déconnexion réussie.");
+    }
+
 
 
 }
