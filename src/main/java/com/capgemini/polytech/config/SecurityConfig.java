@@ -34,17 +34,18 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    @Bean
+    /*@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll() // Autoriser les requêtes pour l'authentification
                         .anyRequest().authenticated()
                 )
+                .cors().disable()
                 .httpBasic();
         return http.build();
-    }
-    /*@Bean
+    }*/
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable() // Désactiver CSRF
@@ -52,6 +53,6 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .anyRequest().permitAll(); // Permettre toutes les requêtes
         return http.build();
-    }*/
+    }
 }
 
