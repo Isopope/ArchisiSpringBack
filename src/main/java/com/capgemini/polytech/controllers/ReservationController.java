@@ -35,8 +35,10 @@ public class ReservationController {
     }
 
 
-    @GetMapping(value = "/{utilisateurId}/{terrainId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ReservationDTO> getReservationById(@PathVariable Integer utilisateurId, @PathVariable Integer terrainId) {
+    @GetMapping(value = "/utilisateurs/{utilisateurId}/terrains/{terrainId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ReservationDTO> getReservationById(
+            @PathVariable Integer utilisateurId,
+            @PathVariable Integer terrainId) {
         ReservationEntity reservation = reservationService.getOneReservation(utilisateurId, terrainId);
         ReservationDTO reservationDTO = reservationMapper.toDTO(reservation);
         return ResponseEntity.ok(reservationDTO);
@@ -50,6 +52,7 @@ public class ReservationController {
         ReservationDTO createdReservationDTO = reservationMapper.toDTO(createdReservation);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdReservationDTO);
     }
+
 
 
     @PutMapping(value = "/{utilisateurId}/{terrainId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
