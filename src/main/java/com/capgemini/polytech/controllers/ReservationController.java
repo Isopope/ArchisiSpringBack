@@ -2,6 +2,8 @@ package com.capgemini.polytech.controllers;
 
 import com.capgemini.polytech.dtos.ReservationDTO;
 import com.capgemini.polytech.entities.ReservationEntity;
+import com.capgemini.polytech.exceptions.ApplicationException;
+import com.capgemini.polytech.exceptions.ErrorCode;
 import com.capgemini.polytech.mappers.ReservationMapper;
 import com.capgemini.polytech.services.ReservationService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,16 +35,16 @@ public class ReservationController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(reservationDTOs);
     }
-    @GetMapping(value="utilisateurs/{utilisateurid}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ReservationDTO>> getReservationByUtilisateur(@PathVariable Integer id){
-        List<ReservationEntity> res= reservationService.getReservationByUtilisateur(id);
-        List<ReservationDTO> dto= res.stream()
+    @GetMapping(value = "utilisateurs/{utilisateurid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ReservationDTO>> getReservationByUtilisateur(@PathVariable("utilisateurid") Integer utilisateurId) {
+        List<ReservationDTO> reservation = reservationService.getReservationByUtilisateur(utilisateurId)
+                .stream()
                 .map(reservationMapper::toDTO)
-                .toList();
-        return ResponseEntity.ok(dto);
-
-
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(reservation);
     }
+
+
 
 
     @GetMapping(value = "/utilisateurs/{utilisateurId}/terrains/{terrainId}", produces = MediaType.APPLICATION_JSON_VALUE)

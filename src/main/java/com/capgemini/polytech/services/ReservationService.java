@@ -6,10 +6,13 @@ import com.capgemini.polytech.exceptions.ErrorCode;
 import com.capgemini.polytech.repositories.ReservationRepository;
 import com.capgemini.polytech.repositories.TerrainRepository;
 import com.capgemini.polytech.repositories.UtilisateurRepository;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class ReservationService {
     private final ReservationRepository reservationRepository;
@@ -35,10 +38,18 @@ public class ReservationService {
     }
 
     public ReservationEntity createReservation(ReservationEntity reservationEntity) {
+            System.out.println(reservationEntity.getUtilisateur().getId());
+        System.out.println(reservationEntity.getTerrain().getId());
+        System.out.println(reservationEntity.getReservation());
         utilisateurRepository.findById(reservationEntity.getUtilisateur().getId())
-                .orElseThrow(() -> new ApplicationException(ErrorCode.RESOURCE_NOT_FOUND));
+               .orElseThrow(() -> new ApplicationException(ErrorCode.RESOURCE_NOT_FOUND));
         terrainRepository.findById(reservationEntity.getTerrain().getId())
                 .orElseThrow(() -> new ApplicationException(ErrorCode.RESOURCE_NOT_FOUND));
+        ReservationId res=new ReservationId();
+        res.setTerrainId(reservationEntity.getTerrain().getId());
+        res.setUtilisateurId(reservationEntity.getUtilisateur().getId());
+        reservationEntity.setId(res);
+        reservationEntity.setReservation(reservationEntity.getReservation());
 
 
         return reservationRepository.save(reservationEntity);
@@ -62,7 +73,7 @@ public class ReservationService {
     }
 
     public List<ReservationEntity> getReservationByUtilisateur(Integer id){
-        return (List<ReservationEntity>) reservationRepository.findByUtilisateurId(id).orElseThrow(()->new ApplicationException(ErrorCode.RESOURCE_NOT_FOUND));
+        return (List<ReservationEntity>) reservationRepository.findByUtilisateurId(id);
 
     }
 }
