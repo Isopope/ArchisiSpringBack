@@ -6,8 +6,10 @@ import com.capgemini.polytech.dtos.RegisterUtilisateurDTO;
 import com.capgemini.polytech.entities.UtilisateurEntity;
 import com.capgemini.polytech.mappers.LoginUtilisateurMapper;
 import com.capgemini.polytech.mappers.RegisterUtilisateurMapper;
+import com.capgemini.polytech.repositories.UtilisateurRepository;
 import com.capgemini.polytech.services.AuthenticationService;
 import com.capgemini.polytech.services.JwtService;
+import com.capgemini.polytech.services.UtilisateurService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +26,14 @@ public class AuthenticationController {
     private LoginUtilisateurMapper loginUtilisateurMapper;
     private final JwtService jwtService;
     private final AuthenticationService authenticationService;
+    private final UtilisateurRepository utilisateurRepository;
 
-    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService,RegisterUtilisateurMapper registerUtilisateurMapper,LoginUtilisateurMapper loginUtilisateurMapper) {
+    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService, RegisterUtilisateurMapper registerUtilisateurMapper, LoginUtilisateurMapper loginUtilisateurMapper, UtilisateurRepository utilisateurRepository) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
         this.loginUtilisateurMapper=loginUtilisateurMapper;
         this.registerUtilisateurMapper=registerUtilisateurMapper;
+        this.utilisateurRepository = utilisateurRepository;
     }
 
     @PostMapping("/signup")
@@ -46,7 +50,11 @@ public class AuthenticationController {
         String jwtToken = jwtService.generateToken(authenticatedUser);
 
         LoginResponse loginResponse = new LoginResponse();
+        UtilisateurEntity user=utilisateurRepository.findByMail(loginUserDto.getMail()).get();
+
         loginResponse.setToken(jwtToken);
+        loginResponse.setUserId(Long.valueOf(user.getId()));
+        loginResponse.setUserName(user.getUsername());
         loginResponse.setExpiresIn(jwtService.getExpirationTime());
 
 

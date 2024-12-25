@@ -2,15 +2,15 @@ package com.capgemini.polytech.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor
+@Getter
+@Setter
 public class ReservationId implements Serializable {
     @Column(name = "utilisateur_id")
     private Integer utilisateurId;

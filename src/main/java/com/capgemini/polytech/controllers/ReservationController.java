@@ -33,6 +33,16 @@ public class ReservationController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(reservationDTOs);
     }
+    @GetMapping(value="utilisateurs/{utilisateurid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ReservationDTO>> getReservationByUtilisateur(@PathVariable Integer id){
+        List<ReservationEntity> res= reservationService.getReservationByUtilisateur(id);
+        List<ReservationDTO> dto= res.stream()
+                .map(reservationMapper::toDTO)
+                .toList();
+        return ResponseEntity.ok(dto);
+
+
+    }
 
 
     @GetMapping(value = "/utilisateurs/{utilisateurId}/terrains/{terrainId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,11 +57,17 @@ public class ReservationController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ReservationDTO> createReservation(@RequestBody ReservationDTO reservationDTO) {
+
         ReservationEntity reservationEntity = reservationMapper.toEntity(reservationDTO);
+
         ReservationEntity createdReservation = reservationService.createReservation(reservationEntity);
         ReservationDTO createdReservationDTO = reservationMapper.toDTO(createdReservation);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(createdReservationDTO);
     }
+
+
+
 
 
 

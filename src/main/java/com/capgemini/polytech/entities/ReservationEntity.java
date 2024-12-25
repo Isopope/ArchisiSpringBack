@@ -22,7 +22,7 @@ public class ReservationEntity implements Serializable {
     @JoinColumn(name = "terrain_id", referencedColumnName = "id", insertable = false, updatable = false)
     private TerrainEntity terrain;
 
-    @Column(name = "reservation", nullable = false)
+    @Column(name = "reservation")
     private Integer reservation;
 
 

@@ -40,6 +40,7 @@ public class ReservationService {
         terrainRepository.findById(reservationEntity.getTerrain().getId())
                 .orElseThrow(() -> new ApplicationException(ErrorCode.RESOURCE_NOT_FOUND));
 
+
         return reservationRepository.save(reservationEntity);
     }
 
@@ -58,5 +59,10 @@ public class ReservationService {
                 reservationRepository::delete,
                 () -> { throw new ApplicationException(ErrorCode.RESOURCE_NOT_FOUND); }
         );
+    }
+
+    public List<ReservationEntity> getReservationByUtilisateur(Integer id){
+        return (List<ReservationEntity>) reservationRepository.findByUtilisateurId(id).orElseThrow(()->new ApplicationException(ErrorCode.RESOURCE_NOT_FOUND));
+
     }
 }
